@@ -7,3 +7,5 @@
 /BookStoreWeb/.vs/BookStoreWeb/config
 /BookStoreWeb/BookStoreWeb/bin/Debug/netcoreapp3.1
 /BookStoreWeb/BookStoreWeb/obj
+/BookStoreWeb/.vs/BookStoreWeb/DesignTimeBuild
+/BookStoreWeb/BookStoreWeb/BookStoreWeb.csproj.user
