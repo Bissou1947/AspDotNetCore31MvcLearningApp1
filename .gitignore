@@ -3,3 +3,7 @@
 ################################################################################
 
 /.vs
+/BookStoreWeb/.vs/BookStoreWeb/v17
+/BookStoreWeb/.vs/BookStoreWeb/config
+/BookStoreWeb/BookStoreWeb/bin/Debug/netcoreapp3.1
+/BookStoreWeb/BookStoreWeb/obj
