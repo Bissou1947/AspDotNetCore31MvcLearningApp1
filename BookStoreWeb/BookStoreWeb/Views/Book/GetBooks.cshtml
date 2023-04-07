@@ -1,17 +1,40 @@
-﻿
+﻿@model IEnumerable<Book>
 @{
-    Layout = null;
+    ViewData["Title"] = "All Books";
 }
 
-<!DOCTYPE html>
+@section breadcrumb{
+<nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+    <ol class="breadcrumb text-bg-light">
+        <li class="breadcrumb-item">Book</li>
+        <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
+    </ol>
+</nav>
+}
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>GetBooks</title>
-</head>
-<body>
-    <h1>home > Books</h1>
-    <button>click</button>
-</body>
-</html>
+<div class="container">
+    <h3 class="text-center display-5 fw-bold py-3">All Books</h3>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+
+        @if (Model.Any())
+        {
+            foreach (var book in Model)
+            {
+                <div class="col">
+                    <div class="card h-100">
+                        <img asp-append-version="true" src="~/images/logo.jpg" class="card-img-top img-thumbnail" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">title: @book.title</h5>
+                            <p class="card-text">author: @book.author</p>
+                            <a asp-controller="Book" asp-action="GetBookById" asp-route-id="@book.id" class="btn btn-primary">More</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <h1 class="col-md-12 text-center text-danger display-2 fw-bold py-3">No Books founded.</h1>
+        }
+    </div>
+</div>

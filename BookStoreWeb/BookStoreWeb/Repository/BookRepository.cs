@@ -26,9 +26,9 @@ namespace BookStoreWeb.Repository
         {
             return new List<Book>()
             {
-                new Book(){id = 1,author = "A",title = "AAA"},
-                new Book(){id = 2,author = "B",title = "BBB"},
-                new Book(){id = 3,author = "C",title = "CCC"},
+                new Book(){id = 1,author = "A",title = "AAA",page="100",language="en",category="Technology",description="AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA"},
+                new Book(){id = 2,author = "B",title = "BBB",page="200",language="Arabic",category="History",description="BBB BBB BBB BBB BBB BBB BBB BBB BBB BBB BBB BBB BBB BBB BBB"},
+                new Book(){id = 3,author = "C",title = "CCC",page="300",language="Turkish",category="Sports",description="CCC CCC CCC CCC CCC CCC CCC CCC CCC CCC CCC CCC CCC CCC CCC"},
             };
         }
     }

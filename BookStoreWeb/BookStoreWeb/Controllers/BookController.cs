@@ -12,18 +12,14 @@ namespace BookStoreWeb.Controllers
         {
             _bookRepository = new BookRepository();
         }
-        public IActionResult Index()
-        {
-            return View();
-        }
         public ViewResult GetBooks()
         {
-            var data =_bookRepository.GetBooks();
-            return View();
+            return View(_bookRepository.GetBooks());
         }
-        public Book GetBookById(int id)
+        [Route("Book-Details/{id}")]
+        public ViewResult GetBookById(int id)
         {
-            return _bookRepository.GetBookById(id);
+            return View(_bookRepository.GetBookById(id));
         }
 
         public List<Book> GetBookByTitleOrAuthor(string title, string author)

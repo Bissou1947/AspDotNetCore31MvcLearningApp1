@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Dynamic;
 
 namespace BookStoreWeb.Controllers
 {
@@ -9,6 +10,10 @@ namespace BookStoreWeb.Controllers
             return View();
         }
         public ViewResult AboutUs()
+        {
+            return View();
+        }
+        public ViewResult ContactUs()
         {
             return View();
         }
