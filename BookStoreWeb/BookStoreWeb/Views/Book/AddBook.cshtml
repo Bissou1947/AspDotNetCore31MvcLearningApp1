@@ -1,0 +1,136 @@
+﻿@model BookVM
+@{
+    ViewData["Title"] = "Add Book";
+}
+
+@section breadcrumb{
+<nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+    <ol class="breadcrumb text-bg-light">
+        <li class="breadcrumb-item">Book</li>
+        <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
+    </ol>
+</nav>
+}
+
+<div class="container">
+    <h3 class="text-center display-5 fw-bold py-3">@ViewData["Title"]</h3>
+
+    @if (ViewBag.IsSuccess == true)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Success</strong>: the book is added, Give it a click if you like to see <a asp-controller="Book" asp-action="GetBookById" asp-route-id="@ViewBag.BookId" class="alert-link">book details</a>.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <form method="post" enctype="multipart/form-data">
+        <div asp-validation-summary="ModelOnly" class="text-danger bg-light mb-3"></div>
+        <div class="mb-3">
+            <label asp-for="title" class="form-label"></label>
+            <input asp-for="title" class="form-control">
+            <span asp-validation-for="title" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="author" class="form-label"></label>
+            <input asp-for="author" class="form-control">
+            <span asp-validation-for="author" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="description" class="form-label"></label>
+            <textarea asp-for="description" class="form-control"></textarea>
+            <span asp-validation-for="description" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="page" class="form-label"></label>
+            <input asp-for="page" class="form-control">
+            <span asp-validation-for="page" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="languageId" class="form-label"></label>
+            <select asp-for="languageId" class="form-control" asp-items="@ViewBag.Language">
+                <option value="">-- Select Language --</option>
+            </select>
+            <span asp-validation-for="languageId" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="bookCoverPhoto" class="form-label"></label>
+            <input asp-for="bookCoverPhoto" class="form-control form-control-lg">
+            <span asp-validation-for="bookCoverPhoto" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="bookGalleryPhotos" class="form-label"></label>
+            <input asp-for="bookGalleryPhotos" class="form-control form-control-lg">
+            <span asp-validation-for="bookGalleryPhotos" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="bookPDF" class="form-label"></label>
+            <input asp-for="bookPDF" class="form-control form-control-lg">
+            <span asp-validation-for="bookPDF" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-outline-success">Submit</button>
+    </form>
+</div>
+
+<div class="container">
+    <hr />
+    <h3 class="text-center display-5 fw-bold py-3 bg-success text-white">Ajax-form by Ajax jquery-ajax-unobtrusive</h3>
+    <h5 class="text-center text-white fw-bold py-3 bg-success">learn it , its complicated a little</h5>
+
+    <div class="d-flex justify-content-center">
+        <div class="spinner-border" role="status" id="myLoader" style="display:none">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
+    <form method="post" data-ajax="true" data-ajax-complete="MyComplete" data-ajax-success="MySuccess"
+          data-ajax-failure="MyFailure" data-ajax-loading="#myLoader"
+          asp-controller="Book" asp-action="AjaxAddBook">
+
+        <div asp-validation-summary="ModelOnly" class="text-danger bg-light mb-3"></div>
+        <div class="mb-3">
+            <label asp-for="title" class="form-label"></label>
+            <input asp-for="title" class="form-control">
+            <span asp-validation-for="title" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="author" class="form-label"></label>
+            <input asp-for="author" class="form-control">
+            <span asp-validation-for="author" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="description" class="form-label"></label>
+            <textarea asp-for="description" class="form-control"></textarea>
+            <span asp-validation-for="description" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="page" class="form-label"></label>
+            <input asp-for="page" class="form-control">
+            <span asp-validation-for="page" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="languageId" class="form-label"></label>
+            <select asp-for="languageId" class="form-control" asp-items="@ViewBag.Language">
+                <option value="">-- Select Language --</option>
+            </select>
+            <span asp-validation-for="languageId" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-outline-success">Submit</button>
+    </form>
+</div>
+
+
+@section scripts{
+<script>
+    function MyComplete(data){
+        alert("complete");
+        console.log(data);
+    }
+    function MySuccess(data){
+        alert("success");
+        console.log(data);
+    }
+    function MyFailure(){
+        alert("failure");
+    }
+</script>
+} 

@@ -9,10 +9,12 @@ namespace BookStoreWeb.Controllers
         {
             return View();
         }
+        [Route("About-Us")]
         public ViewResult AboutUs()
         {
             return View();
         }
+        [Route("Contact-Us")]
         public ViewResult ContactUs()
         {
             return View();

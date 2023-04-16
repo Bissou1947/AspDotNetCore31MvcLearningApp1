@@ -12,3 +12,8 @@
 /sources.docx
 /~$ources.docx
 /BookStoreWeb/BookStoreWeb/wwwroot/lib
+/BookStoreWeb/BookStoreWeb/bin/Release/netcoreapp3.1
+/BookStoreWeb/BookStoreWeb/Migrations
+/BookStoreWeb/BookStoreWeb/wwwroot/jquery-validation-unobtrusive
+/BookStoreWeb/BookStoreWeb/wwwroot/jquery-validate
+/BookStoreWeb/BookStoreWeb/wwwroot/jquery-ajax-unobtrusive

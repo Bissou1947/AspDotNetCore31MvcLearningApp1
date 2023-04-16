@@ -1,35 +1,120 @@
-﻿using BookStoreWeb.Models;
+﻿using BookStoreWeb.Data;
+using BookStoreWeb.Models;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace BookStoreWeb.Repository
 {
     public class BookRepository
     {
-        public List<Book> GetBooks()
+        private readonly BookStoreWebContext _db = null;
+        public BookRepository(BookStoreWebContext db)
         {
-            return DB_Data();
+            _db = db;
         }
-        public Book GetBookById(int id)
+        public async Task<int> AddBook(BookVM book)
         {
-            return DB_Data().Where(a=>a.id == id).FirstOrDefault();
-        }
-
-        public List<Book> GetBookByTitleOrAuthor(string title,string author)
-        {
-            return DB_Data().Where(a => a.title.ToLower().Contains(title.ToLower()) || a.author.ToLower().Contains(author.ToLower())).ToList();
-        }
-
-        //.....Data....like DB....................//
-
-        private List<Book> DB_Data()
-        {
-            return new List<Book>()
+            var newBook = new Book()
             {
-                new Book(){id = 1,author = "A",title = "AAA",page="100",language="en",category="Technology",description="AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA AAA"},
-                new Book(){id = 2,author = "B",title = "BBB",page="200",language="Arabic",category="History",description="BBB BBB BBB BBB BBB BBB BBB BBB BBB BBB BBB BBB BBB BBB BBB"},
-                new Book(){id = 3,author = "C",title = "CCC",page="300",language="Turkish",category="Sports",description="CCC CCC CCC CCC CCC CCC CCC CCC CCC CCC CCC CCC CCC CCC CCC"},
+                title = book.title,
+                author = book.author,
+                description = book.description,
+                page = book.page,
+                creatDate = DateTime.UtcNow,
+                updateDate = DateTime.UtcNow,
+                category = book.category,
+                languageId = book.languageId,
+                coverPhotoPath = book.bookCoverPhotoPathToDB,
+                pdfPath = book.bookPDFPathToDB
             };
+
+            if (book.galleryVm.Any())
+            {
+                newBook.Gallery = new List<Gallery>();
+                foreach (var file in book.galleryVm)
+                {
+                    newBook.Gallery.Add(new Gallery
+                    {
+                        photoPath = file.photoPath,
+                        name = file.name,
+                    });
+                }
+            }
+
+            await _db.Books.AddAsync(newBook);
+            await _db.SaveChangesAsync();
+
+            return newBook.id;
         }
+        public async Task<List<BookVM>> GetBooks()
+        {
+            return await _db.Books.Select(a => new BookVM
+            {
+                id = a.id,
+                title = a.title,
+                author = a.author,
+                description = a.description,
+                page = a.page,
+                creatDate = a.creatDate,
+                updateDate = a.updateDate,
+                category = a.category,
+                languageId = a.languageId,
+                languageName = a.Language.name,
+                bookCoverPhotoPathToDB = a.coverPhotoPath
+            }).ToListAsync();
+        }
+
+        public async Task<List<BookVM>> GetTopBooks(int top)
+        {
+            return await _db.Books.Select(a => new BookVM
+            {
+                id = a.id,
+                title = a.title,
+                author = a.author,
+                description = a.description,
+                page = a.page,
+                creatDate = a.creatDate,
+                updateDate = a.updateDate,
+                category = a.category,
+                languageId = a.languageId,
+                languageName = a.Language.name,
+                bookCoverPhotoPathToDB = a.coverPhotoPath
+            }).Take(top).ToListAsync();
+        }
+
+        public async Task<BookVM> GetBookById(int id)
+        {
+            return await _db.Books.Where(b => b.id == id).Select(a => new BookVM
+            {
+                id = a.id,
+                title = a.title,
+                author = a.author,
+                description = a.description,
+                page = a.page,
+                creatDate = a.creatDate,
+                updateDate = a.updateDate,
+                category = a.category,
+                languageId = a.languageId,
+                languageName = a.Language.name,
+                bookCoverPhotoPathToDB = a.coverPhotoPath,
+                galleryVm = a.Gallery.Select(c => new GalleryVM()
+                {
+                    bookId = c.id,
+                    name = c.name,
+                    photoPath = c.photoPath,
+                }).ToList(),
+                bookPDFPathToDB = a.pdfPath,
+            }).FirstOrDefaultAsync();
+        }
+
+        public List<BookVM> GetBookByTitleOrAuthor(string title, string author)
+        {
+            //return DB_Data().Where(a => a.title.ToLower().Contains(title.ToLower()) || a.author.ToLower().Contains(author.ToLower())).ToList();
+            return null;
+        }
+
     }
 }

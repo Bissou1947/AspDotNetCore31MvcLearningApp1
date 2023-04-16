@@ -1,4 +1,4 @@
-﻿@model Book
+﻿@model BookVM
 @{
     ViewData["Title"] = "Book details";
 }
@@ -7,7 +7,7 @@
 <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
     <ol class="breadcrumb text-bg-light">
         <li class="breadcrumb-item">Book</li>
-        <li class="breadcrumb-item">Book details</li>
+        <li class="breadcrumb-item">@ViewData["Title"]</li>
         @if(Model != null){
         <li class="breadcrumb-item active" aria-current="page">@Model.title by @Model.author</li>
         }
@@ -20,24 +20,42 @@
 }
 
 <div class="container">
-    <h3 class="text-center display-5 fw-bold py-3">Book Details</h3>
+    <h3 class="text-center display-5 fw-bold py-3">@ViewData["Title"]</h3>
     <div class="row">
         @if (Model != null)
         {
             <div class="col-md-6">
                 <div id="carouselExampleControls" class="carousel carousel-dark slide " data-bs-ride="carousel">
-                    <div class="carousel-indicators">
-                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                    </div>
-                    <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            <img asp-append-version="true" src="~/images/img1.jpg" class="rounded mx-auto d-block w-75 img-thumbnail" alt="...">
+
+                    @if (Model.galleryVm.Any())
+                    {
+                        <div class="carousel-indicators">
+                            @for (var i = 0; i < Model.galleryVm.Count(); i++)
+                            {
+                                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="@i" class="@(i == 0 ?"active" : "")" aria-current="true" aria-label="Slide 1"></button>
+                            }
                         </div>
-                        <div class="carousel-item">
-                            <img asp-append-version="true" src="~/images/img3.png" class="rounded mx-auto d-block w-75 img-thumbnail" alt="...">
+                        <div class="carousel-inner">
+                            @for (var i = 0; i < Model.galleryVm.Count(); i++)
+                            {
+                                <div class="carousel-item @(i == 0 ?"active" : "")">
+                                    <img asp-append-version="true" src="@Model.galleryVm[i].photoPath" class="rounded mx-auto d-block w-75 img-thumbnail" alt="@Model.galleryVm[i].name">
+                                </div>
+                            }
                         </div>
-                    </div>
+                    }
+                    else
+                    {
+                        <div class="carousel-indicators">
+                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                        </div>
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img asp-append-version="true" src="~/images/img1.jpg" class="rounded mx-auto d-block w-75 img-thumbnail" alt="...">
+                            </div>
+
+                        </div>
+                    }
                     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                         <span class="visually-hidden">Previous</span>
@@ -55,8 +73,8 @@
                     <li class="list-group-item">Description: @Model.description</li>
                     <li class="list-group-item">Pages: @Model.page</li>
                     <li class="list-group-item">Category: @Model.category</li>
-                    <li class="list-group-item">Language: @Model.language</li>
-                    <li class="list-group-item"><a class="btn btn-outline-primary d-block">Read Book</a></li>
+                    <li class="list-group-item">Language: @Model.languageName</li>
+                    <li class="list-group-item"><a href="@Model.bookPDFPathToDB" target="_blank" class="btn btn-outline-primary d-block">Read Book</a></li>
                 </ul>
             </div>
         }
@@ -67,39 +85,20 @@
 
     </div>
 </div>
-
-<div class="container">
-    <h3 class="text-center display-5 fw-bold py-5">Similar Books</h3>
-    <div class="row row-cols-1 row-cols-md-3 g-4">
-        <div class="col">
-            <div class="card h-100">
-                <img asp-append-version="true" src="~/images/logo.jpg" class="card-img-top img-thumbnail" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
+@if (Model != null)
+{
+    <div class="container">
+        <h3 class="text-center display-5 fw-bold py-5">Similar Books</h3>
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            <div class="col">
+                 <partial name="_BookThumbnailPV" model="new BookVM()"></partial>
             </div>
-        </div>
-        <div class="col">
-            <div class="card h-100">
-                <img asp-append-version="true" src="~/images/logo.jpg" class="card-img-top img-thumbnail" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
+            <div class="col">
+                 <partial name="_BookThumbnailPV" model="new BookVM()"></partial>
             </div>
-        </div>
-        <div class="col">
-            <div class="card h-100">
-                <img asp-append-version="true" src="~/images/logo.jpg" class="card-img-top img-thumbnail" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
+            <div class="col">
+                 <partial name="_BookThumbnailPV" model="new BookVM()"></partial>
             </div>
         </div>
     </div>
-</div>
+}
