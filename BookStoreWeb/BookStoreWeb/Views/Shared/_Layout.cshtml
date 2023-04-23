@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>@ViewData["Title"] | Book Store</title>
+    <title>@ViewData["Title"] | @_iConfiguration["AppName"]</title>
     <partial name="_CssLayoutPV"></partial>
 </head>
 <body>
@@ -29,7 +29,7 @@
                             <a class="nav-link @Html.IsActive("Home","ContactUs")" asp-controller="Home" asp-action="ContactUs">Contact</a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle @Html.IsActive("Book","GetBooks")" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle @Html.IsActive("Book","GetBooks") @Html.IsActive("Book","AddBook")" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Book
                             </a>
                             <ul class="dropdown-menu">
@@ -43,10 +43,14 @@
                             <a class="nav-link disabled">Disabled</a>
                         </li>
                     </ul>
-                    <form class="d-flex" role="search">
+                    @*  <form class="d-flex" role="search">
                         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                         <button class="btn btn-outline-success" type="submit">Search</button>
-                    </form>
+                        </form>*@
+
+                    <div class="d-flex">
+                        <partial name="_LoginInfoPV" />
+                    </div>
                 </div>
             </div>
         </nav>

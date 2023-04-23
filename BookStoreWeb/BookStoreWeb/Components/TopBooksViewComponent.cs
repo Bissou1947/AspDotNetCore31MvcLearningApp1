@@ -6,14 +6,14 @@ namespace BookStoreWeb.Components
 {
     public class TopBooksViewComponent: ViewComponent
     {
-        private readonly BookRepository _bookRepository = null;
-        public TopBooksViewComponent(BookRepository bookRepository)
+        private readonly IBookRepository _iBookRepository = null;
+        public TopBooksViewComponent(IBookRepository iBookRepository)
         {
-            _bookRepository = bookRepository;
+            _iBookRepository = iBookRepository;
         }
         public async Task<IViewComponentResult> InvokeAsync(int top)
         {
-            return View(await _bookRepository.GetTopBooks(top));
+            return View(await _iBookRepository.GetTopBooks(top));
         }
     }
 }

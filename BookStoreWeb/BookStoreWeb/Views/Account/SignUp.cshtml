@@ -1,0 +1,59 @@
+﻿@model SignUpUserVM
+@{
+    ViewData["Title"] = "Sign Up";
+}
+
+@section breadcrumb{
+<nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+    <ol class="breadcrumb text-bg-light">
+        <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
+    </ol>
+</nav>
+}
+
+<div class="container">
+    <h3 class="text-center display-5 fw-bold py-3">@ViewData["Title"]</h3>
+    <div class="row">
+        <div class="col-md-8">
+            <img src="~/images/signup.jpg" class="img-fluid" asp-append-version="true" />
+        </div>
+        <div class="col-md-4">
+            <form method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger bg-light mb-3"></div>
+                 <div class="mb-3">
+                    <label asp-for="firstName" class="form-label"></label>
+                    <input asp-for="firstName" class="form-control" />
+                    <span asp-validation-for="firstName" class="text-danger"></span>
+                </div>
+                 <div class="mb-3">
+                    <label asp-for="lastName" class="form-label"></label>
+                    <input asp-for="lastName" class="form-control" />
+                    <span asp-validation-for="lastName" class="text-danger"></span>
+                </div>
+                 <div class="mb-3">
+                    <label asp-for="dateOfBirth" class="form-label"></label>
+                    <input asp-for="dateOfBirth" class="form-control" />
+                    <span asp-validation-for="dateOfBirth" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="email" class="form-label"></label>
+                    <input asp-for="email" class="form-control" />
+                    <span asp-validation-for="email" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="password" class="form-label"></label>
+                    <input asp-for="password" class="form-control" />
+                    <span asp-validation-for="password" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="confirmPassword" class="form-label"></label>
+                    <input asp-for="confirmPassword" class="form-control" />
+                    <span asp-validation-for="confirmPassword" class="text-danger"></span>
+                </div>
+                <button type="submit" class="btn btn-outline-success">Sign Up</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+

@@ -1,0 +1,13 @@
+﻿@if (_signInManager.IsSignedIn(User))
+{
+  @*  <a class="btn btn-outline-dark" href="#">@User.Identity.Name</a>*@
+  @*instead we use custom claim to get fullname*@
+    <a class="btn btn-outline-dark" href="#">@User.FindFirst("userFullName").Value</a>
+    <a class="btn btn-outline-dark @Html.IsActive("Account","ChangePassword")" asp-controller="Account" asp-action="ChangePassword">Password</a>
+    <a class="btn btn-outline-dark @Html.IsActive("Account","SignOut")" asp-controller="Account" asp-action="SignOut">SignOut</a>
+}
+else
+{
+    <a class="btn btn-outline-dark @Html.IsActive("Account","SignIn")" asp-controller="Account" asp-action="SignIn" asp-route-returnUrl="@Context.Request.Path">SignIn</a>
+    <a class="btn btn-outline-dark @Html.IsActive("Account","SignUp")" asp-controller="Account" asp-action="SignUp">SignUp</a>
+}

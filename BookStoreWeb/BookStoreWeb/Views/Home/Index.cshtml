@@ -26,6 +26,14 @@
 
         </vc:top-books>
     </div>
+
+    @if (_iConfiguration.GetValue<bool>("TestAlertInClientSideCode:NewBookAlert"))
+    {
+        <div class="alert alert-info m-4" role="alert">
+            @(_iConfiguration.GetValue<string>("TestAlertInClientSideCode:BookAlert"))
+        </div>
+    }
+
 </div>
 
 

@@ -1,5 +1,6 @@
 ﻿using BookStoreWeb.Models;
 using BookStoreWeb.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,30 +12,29 @@ using System.Threading.Tasks;
 
 namespace BookStoreWeb.Controllers
 {
+    [Authorize]
     public class BookController : Controller
     {
-        private readonly BookRepository _bookRepository = null;
-        private readonly LanguageRepository _languageRepository = null;
+        private readonly IBookRepository _iBookRepository = null;
+        private readonly ILanguageRepository _iLanguageRepository = null;
         private readonly IWebHostEnvironment _env = null;
-        public BookController(BookRepository bookRepository,
-            LanguageRepository languageRepository,
+        public BookController(IBookRepository iBookRepository,
+            ILanguageRepository iLanguageRepository,
             IWebHostEnvironment env)
         {
-            _bookRepository = bookRepository;
-            _languageRepository = languageRepository;
+            _iBookRepository = iBookRepository;
+            _iLanguageRepository = iLanguageRepository;
             _env = env;
         }
 
-        [Route("Add-Book")]
-        public async Task<ViewResult> AddBook(bool isSuccess = false, int bookId = 0)
+        [HttpGet("Add-Book")]
+        public ViewResult AddBook(bool isSuccess = false, int bookId = 0)
         {
             ViewBag.IsSuccess = isSuccess;
             ViewBag.BookId = bookId;
-            ViewBag.Language = new SelectList(await _languageRepository.GetLanguages(), "id", "name");
             return View();
         }
-        [Route("Add-Book")]
-        [HttpPost]
+        [HttpPost("Add-Book")]
         public async Task<IActionResult> AddBook(BookVM book)
         {
             if (ModelState.IsValid)
@@ -65,10 +65,9 @@ namespace BookStoreWeb.Controllers
                     book.bookPDFPathToDB = await UploadCoverOrGallryOrPdfForBook(folder, book.bookPDF);
                 }
 
-                int id = await _bookRepository.AddBook(book);
+                int id = await _iBookRepository.AddBook(book);
                 if (id > 0) return RedirectToAction("AddBook", new { isSuccess = true, bookId = id });
             }
-            ViewBag.Language = new SelectList(await _languageRepository.GetLanguages(), "id", "name");
             ModelState.AddModelError("", "Faild: check errors");
             return View(book);
         }
@@ -93,17 +92,17 @@ namespace BookStoreWeb.Controllers
         [Route("All-Book")]
         public async Task<ViewResult> GetBooks()
         {
-            return View(await _bookRepository.GetBooks());
+            return View(await _iBookRepository.GetBooks());
         }
-        [Route("Book-Details/{id}")]
+        [Route("Book-Details/{id:int:min(1)}")]
         public async Task<ViewResult> GetBookById(int id)
         {
-            return View(await _bookRepository.GetBookById(id));
+            return View(await _iBookRepository.GetBookById(id));
         }
 
         public List<BookVM> GetBookByTitleOrAuthor(string title, string author)
         {
-            return _bookRepository.GetBookByTitleOrAuthor(title, author);
+            return _iBookRepository.GetBookByTitleOrAuthor(title, author);
         }
     }
 }

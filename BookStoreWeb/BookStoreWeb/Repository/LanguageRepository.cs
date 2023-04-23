@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BookStoreWeb.Repository
 {
-    public class LanguageRepository
+    public class LanguageRepository : ILanguageRepository
     {
         private readonly BookStoreWebContext _db = null;
         public LanguageRepository(BookStoreWebContext db)
@@ -16,7 +16,7 @@ namespace BookStoreWeb.Repository
         }
         public async Task<List<LanguageVM>> GetLanguages()
         {
-            return await _db.Languages.Select(a=> new LanguageVM
+            return await _db.Languages.Select(a => new LanguageVM
             {
                 id = a.id,
                 description = a.description,

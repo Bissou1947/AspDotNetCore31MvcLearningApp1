@@ -1,8 +1,15 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using BookStoreWeb.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace BookStoreWeb.Data
 {
-    public class BookStoreWebContext : DbContext
+    //.....we inherit from IdentityDbContext insted of DbContext, to work with Identity for security
+
+    //..
+    //...the standard is IdentityDbContext
+    //..the custom on identity is IdentityDbContext<ApplicationUser>
+    public class BookStoreWebContext : IdentityDbContext<ApplicationUser>
     {
         public BookStoreWebContext(DbContextOptions<BookStoreWebContext> options)
             : base(options)

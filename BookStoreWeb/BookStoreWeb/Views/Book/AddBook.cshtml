@@ -47,7 +47,7 @@
         </div>
         <div class="mb-3">
             <label asp-for="languageId" class="form-label"></label>
-            <select asp-for="languageId" class="form-control" asp-items="@ViewBag.Language">
+            <select asp-for="languageId" class="form-control" asp-items="@(new SelectList(await _iLanguageRepository.GetLanguages(), "id", "name"))">
                 <option value="">-- Select Language --</option>
             </select>
             <span asp-validation-for="languageId" class="text-danger"></span>
