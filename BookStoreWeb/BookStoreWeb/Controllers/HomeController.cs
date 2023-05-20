@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BookStoreWeb.Controllers
 {
-    public class HomeController: Controller
+    public class HomeController : Controller
     {
         private readonly IConfiguration _config;
         private readonly IUserService _userService;
@@ -20,25 +20,30 @@ namespace BookStoreWeb.Controllers
             _userService = userService;
             _emailService = emailService;
         }
+        [Route("")]
         public async Task<ViewResult> Index()
         {
-            //..............................//
-            TestMailOptionsVM testMailOptionsVM = new TestMailOptionsVM
-            {
-                mailToAddresses = new List<string> { "bassil_1947@hotmail.com" },
-                placeHolder = new List<KeyValuePair<string, string>>
-                {
-                    new KeyValuePair<string, string>("{{clientName}}" ,"Bassil")
-                }
-                
-            };
-            await _emailService.SendTestMail(testMailOptionsVM);
-            //...............................//
+            //...........send email...............................................//
+            //TestMailOptionsVM testMailOptionsVM = new TestMailOptionsVM
+            //{
+            //    mailToAddresses = new List<string> { "aaa@hotmail.com" },
+            //    placeHolder = new List<KeyValuePair<string, string>>
+            //    {
+            //        new KeyValuePair<string, string>("{{clientName}}" ,"aaa aaa")
+            //    }
+
+            //};
+            //await _emailService.SendTestMail(testMailOptionsVM);
+            //...........................end.........................................//
+
+            //..............use UserService class.................................//
 
             var signInUserId = _userService.GetUserId();
             var isUserSignIn = _userService.IsUserAuthenticated();
 
-            //...............................//
+            //..........................end..........................................//
+
+            //...........read settings from appsettings...........................//
             var key1 = _config["TestObj:Key1"]; //...read from appsettings.json
             var Key3Key1 = _config["TestObj:Key3:Key3Key1"]; //...read from appsettings.json
 
@@ -51,9 +56,8 @@ namespace BookStoreWeb.Controllers
             _config.Bind("TestAlertInClientSideCode", obj);
             var check = obj.NewBookAlert;
             var alert = obj.BookAlert;
+            //.............................end..................................................//
 
-            //..for smtp mail
-            SmtpConfigVM smtpConfigVM = new SmtpConfigVM(); 
 
             return View();
         }

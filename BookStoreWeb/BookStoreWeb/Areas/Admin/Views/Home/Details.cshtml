@@ -1,0 +1,16 @@
+﻿@model int
+@{
+    ViewData["Title"] = "Admin Details";
+}
+
+@section breadcrumb{
+<nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+    <ol class="breadcrumb text-bg-light">
+        <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
+    </ol>
+</nav>
+}
+
+<h3 class="text-center display-5 fw-bold py-3">@ViewData["Title"]</h3>
+<p class="text-center display-5 fw-bold py-3">@Model</p>
+<a class="btn btn-success btn-lg" asp-area="" asp-controller="Home" asp-action="Index">Back to Default first page</a>

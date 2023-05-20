@@ -1,5 +1,6 @@
 ﻿using BookStoreWeb.Models;
 using BookStoreWeb.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -70,6 +71,12 @@ namespace BookStoreWeb.Controllers
                         return RedirectToAction("Index", "Home");
                     }
                 }
+
+                if (result.IsLockedOut)
+                {
+                    ModelState.AddModelError("", "Faild: Account is LockedOut");
+                    return View(model);
+                }
             }
             ModelState.AddModelError("", "Faild: invalid data");
             return View(model);
@@ -117,6 +124,14 @@ namespace BookStoreWeb.Controllers
             }
             ModelState.AddModelError("", "Faild: invalid data");
             return View(model);
+        }
+
+        //..........roles........................................................//
+        [Route("All-Roles")]
+        [Authorize(Roles = "admin")]
+        public async Task<IActionResult> GetAllRoles()
+        {
+            return View(await _iAccountRepository.GetAllRoles());
         }
 
     }

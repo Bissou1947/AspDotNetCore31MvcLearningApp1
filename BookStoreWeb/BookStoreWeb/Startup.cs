@@ -51,15 +51,18 @@ namespace BookStoreWeb
 
             //...config identity for test
             //...try on password
-            //services.Configure<IdentityOptions>(option =>
-            //{
-            //    option.Password.RequiredLength = 6;
-            //    option.Password.RequiredUniqueChars = 1;
-            //    option.Password.RequireDigit = false;
-            //    option.Password.RequireLowercase = false;
-            //    option.Password.RequireNonAlphanumeric = false;
-            //    option.Password.RequireUppercase = false;
-            //});
+            services.Configure<IdentityOptions>(option =>
+            {
+                option.Password.RequiredLength = 6;
+                option.Password.RequiredUniqueChars = 1;
+                option.Password.RequireDigit = false;
+                option.Password.RequireLowercase = false;
+                option.Password.RequireNonAlphanumeric = false;
+                option.Password.RequireUppercase = false;
+
+                option.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
+                option.Lockout.MaxFailedAccessAttempts = 4;
+            });
 
             //...redirect user to signin page
             services.ConfigureApplicationCookie(config =>
@@ -95,7 +98,13 @@ namespace BookStoreWeb
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapDefaultControllerRoute();
+
+                endpoints.MapControllerRoute(
+                     name: "areas",
+                     pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
             });
+
+
         }
     }
 }

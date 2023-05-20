@@ -39,6 +39,20 @@
                                 <li><a class="dropdown-item" href="#">Something else here</a></li>
                             </ul>
                         </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle @Html.IsActive("Book","GetBooks") @Html.IsActive("Book","AddBook")" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Features
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" asp-area="Admin" asp-controller="Home" asp-action="Index">Admin-Index</a></li>
+                                <li><a class="dropdown-item" asp-area="Admin" asp-controller="Home" asp-action="Details" asp-route-id="5">Admin-Details</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" asp-area="Financial" asp-controller="Home" asp-action="Index">Financial-Index</a></li>
+                                <li><a class="dropdown-item" asp-area="Financial" asp-controller="Home" asp-action="Details" asp-route-id="5">Financial-Details</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="GetAllRoles">Roles-Index</a></li>
+                            </ul>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link disabled">Disabled</a>
                         </li>

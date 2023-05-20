@@ -2,6 +2,8 @@
 using BookStoreWeb.Models;
 using BookStoreWeb.Service;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace BookStoreWeb.Repository
@@ -10,13 +12,15 @@ namespace BookStoreWeb.Repository
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly RoleManager<IdentityRole> _identityRole;
         private readonly IUserService _userService;
         public AccountRepository(UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager, IUserService userService)
+            SignInManager<ApplicationUser> signInManager,IUserService userService,RoleManager<IdentityRole> identityRole)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _userService = userService;
+            _identityRole = identityRole;
         }
 
         //....sign up
@@ -38,7 +42,7 @@ namespace BookStoreWeb.Repository
         //......sign in
         public async Task<SignInResult> UserSignInAsync(SignInUserVM model)
         {
-            return await _signInManager.PasswordSignInAsync(model.email,model.password,model.rememberMe,false);
+            return await _signInManager.PasswordSignInAsync(model.email,model.password,model.rememberMe,true);
         }
 
         //......sign out
@@ -52,6 +56,12 @@ namespace BookStoreWeb.Repository
         {
             var user = await _userManager.FindByIdAsync(_userService.GetUserId());
             return await _userManager.ChangePasswordAsync(user,model.currentPassword,model.newPassword);
+        }
+
+        //....learn about roles
+        public async Task<List<IdentityRole>> GetAllRoles()
+        {
+           return await _identityRole.Roles.ToListAsync();
         }
     }
 }

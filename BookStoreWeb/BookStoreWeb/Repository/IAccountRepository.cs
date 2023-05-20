@@ -1,5 +1,6 @@
 ﻿using BookStoreWeb.Models;
 using Microsoft.AspNetCore.Identity;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace BookStoreWeb.Repository
@@ -10,5 +11,6 @@ namespace BookStoreWeb.Repository
         Task<SignInResult> UserSignInAsync(SignInUserVM model);
         Task UserSignOutAsync();
         Task<IdentityResult> UserChangePassword(UserChangePasswordVM model);
+        Task<List<IdentityRole>> GetAllRoles();
     }
 }
